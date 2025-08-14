@@ -1,17 +1,39 @@
 import React, { useState } from "react";
 
-const PanVerification = () => {
-    const [form, setForm] = useState({
+// Type for form fields
+interface PanForm {
+    typeOfOrg: string;
+    pan: string;
+    panHolderName: string;
+    dob: string;
+    consent: boolean;
+}
+
+// Type for server error
+interface ServerError {
+    message?: string;
+    note?: string;
+}
+
+const PanVerification: React.FC = () => {
+    const [form, setForm] = useState<PanForm>({
         typeOfOrg: "",
         pan: "",
         panHolderName: "",
         dob: "",
         consent: false,
     });
+
     const [successMessage, setSuccessMessage] = useState<string>("");
-    const [serverError, setServerError] = useState<{ message?: string; note?: string } | null>(null);
-    const [errors, setErrors] = useState<Record<string, string>>({});
-    const [isVerified, setIsVerified] = useState(false); // NEW — to disable fields
+    const [serverError, setServerError] = useState<ServerError | null>(null);
+    const [errors, setErrors] = useState<Record<keyof PanForm, string>>({
+        typeOfOrg: "",
+        pan: "",
+        panHolderName: "",
+        dob: "",
+        consent: "",
+    });
+    const [isVerified, setIsVerified] = useState<boolean>(false);
 
     const orgTypes = [
         { value: "1", label: "1. Proprietary / एकल स्वामित्व" },
@@ -33,7 +55,7 @@ const PanVerification = () => {
             ...prev,
             [name]: type === "checkbox" ? checked : value,
         }));
-        if (errors[name]) {
+        if (errors[name as keyof PanForm]) {
             setErrors((prev) => ({ ...prev, [name]: "" }));
         }
     };
@@ -57,7 +79,14 @@ const PanVerification = () => {
         setServerError(null);
         setSuccessMessage("");
 
-        const newErrors: Record<string, string> = {};
+        const newErrors: Record<keyof PanForm, string> = {
+            typeOfOrg: "",
+            pan: "",
+            panHolderName: "",
+            dob: "",
+            consent: "",
+        };
+
         const typeVal = parseInt(form.typeOfOrg, 10);
 
         if (!form.typeOfOrg) newErrors.typeOfOrg = "Required";
@@ -79,7 +108,8 @@ const PanVerification = () => {
         }
         if (!form.consent) newErrors.consent = "You must give consent.";
 
-        if (Object.keys(newErrors).length > 0) {
+        const hasErrors = Object.values(newErrors).some((val) => val !== "");
+        if (hasErrors) {
             setErrors(newErrors);
             return;
         }
@@ -100,7 +130,7 @@ const PanVerification = () => {
                     panHolderName: form.panHolderName,
                     dob: form.dob,
                     typeOfOrg: form.typeOfOrg,
-                    consent: form.consent
+                    consent: form.consent,
                 }),
             });
 
@@ -114,7 +144,7 @@ const PanVerification = () => {
                 }
             } else {
                 setSuccessMessage(data.message);
-                setIsVerified(true); // ✅ Disable fields after success
+                setIsVerified(true);
             }
         } catch (error) {
             console.error(error);
@@ -138,35 +168,31 @@ const PanVerification = () => {
                         name="typeOfOrg"
                         value={form.typeOfOrg}
                         onChange={handleChange}
-                        disabled={isVerified} // ✅ disable
+                        disabled={isVerified}
                         className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 text-[1rem]"
                     >
                         <option value="">Type of Organisation / संगठन के प्रकार</option>
                         {orgTypes.map((org) => (
-                            <option key={org.value} value={org.value}>{org.label}</option>
+                            <option key={org.value} value={org.value}>
+                                {org.label}
+                            </option>
                         ))}
                     </select>
-                    {errors.typeOfOrg && (
-                        <p className="mt-1 text-[16px] font-extrabold text-red-600">{errors.typeOfOrg}</p>
-                    )}
+                    {errors.typeOfOrg && <p className="mt-1 text-[16px] font-extrabold text-red-600">{errors.typeOfOrg}</p>}
                 </div>
 
                 <div>
-                    <label className="block text-[1rem] font-semibold text-gray-800 mb-1">
-                        4.1 PAN / पैन
-                    </label>
+                    <label className="block text-[1rem] font-semibold text-gray-800 mb-1">4.1 PAN / पैन</label>
                     <input
                         type="text"
                         name="pan"
                         value={form.pan}
                         onChange={handleChange}
-                        disabled={isVerified} // ✅ disable
+                        disabled={isVerified}
                         placeholder="ENTER PAN NUMBER"
                         className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 text-[1rem]"
                     />
-                    {errors.pan && (
-                        <p className="mt-1 text-[16px] font-extrabold text-red-600">{errors.pan}</p>
-                    )}
+                    {errors.pan && <p className="mt-1 text-[16px] font-extrabold text-red-600">{errors.pan}</p>}
                 </div>
             </div>
 
@@ -181,7 +207,7 @@ const PanVerification = () => {
                         name="panHolderName"
                         value={form.panHolderName}
                         onChange={handleChange}
-                        disabled={isVerified} // ✅ disable
+                        disabled={isVerified}
                         placeholder="Enter Name"
                         className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 text-[1rem]"
                     />
@@ -199,12 +225,10 @@ const PanVerification = () => {
                         name="dob"
                         value={form.dob}
                         onChange={handleDobChange}
-                        disabled={isVerified} // ✅ disable
+                        disabled={isVerified}
                         className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 text-[1rem]"
                     />
-                    {errors.dob && (
-                        <p className="mt-1 text-[16px] font-extrabold text-red-600">{errors.dob}</p>
-                    )}
+                    {errors.dob && <p className="mt-1 text-[16px] font-extrabold text-red-600">{errors.dob}</p>}
                 </div>
             </div>
 
@@ -215,15 +239,13 @@ const PanVerification = () => {
                     name="consent"
                     checked={form.consent}
                     onChange={handleChange}
-                    disabled={isVerified} // ✅ disable
+                    disabled={isVerified}
                     className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-blue-500"
                 />
                 <p className="ml-2 text-[16px] text-gray-900">
                     I, the holder of the above PAN, hereby give my consent to Ministry of MSME...
                 </p>
-                {errors.consent && (
-                    <p className="mt-1 text-[16px] font-extrabold text-red-600 ml-2">{errors.consent}</p>
-                )}
+                {errors.consent && <p className="mt-1 text-[16px] font-extrabold text-red-600 ml-2">{errors.consent}</p>}
             </div>
 
             {/* Button */}
@@ -231,10 +253,9 @@ const PanVerification = () => {
                 <button
                     type="button"
                     onClick={handleSubmit}
-                    disabled={isVerified} // ✅ disable after success
-                    className={`${
-                        isVerified ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-                    } text-white text-[1rem] font-medium px-4 py-2 rounded-sm shadow-sm`}
+                    disabled={isVerified}
+                    className={`${isVerified ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                        } text-white text-[1rem] font-medium px-4 py-2 rounded-sm shadow-sm`}
                 >
                     PAN Validate
                 </button>
@@ -244,9 +265,7 @@ const PanVerification = () => {
             {serverError?.message && (
                 <div className="px-8 pb-4">
                     <p className="text-red-600 font-bold">{serverError.message}</p>
-                    {serverError.note && (
-                        <p className="text-green-700 font-semibold mt-1">{serverError.note}</p>
-                    )}
+                    {serverError.note && <p className="text-green-700 font-semibold mt-1">{serverError.note}</p>}
                 </div>
             )}
 
@@ -255,10 +274,9 @@ const PanVerification = () => {
                 <div className="px-8 pb-6">
                     <p className="text-green-600 text-[16px] font-extrabold">
                         {successMessage} GSTIN (As per applicability of CGST Act 2017 and as notified by the ministry of MSME{" "}
-                        <span className="text-blue-500 font-semibold">
-                            vide S.O. 1055(E) dated 05th March 2021
-                        </span>
-                        ) is required for Udyam Registration w.e.f. 01.04.2021. You are advised to apply for GSTIN suitably to avoid any inconvenience.
+                        <span className="text-blue-500 font-semibold">vide S.O. 1055(E) dated 05th March 2021</span>) is required
+                        for Udyam Registration w.e.f. 01.04.2021. You are advised to apply for GSTIN suitably to avoid any
+                        inconvenience.
                     </p>
                 </div>
             )}

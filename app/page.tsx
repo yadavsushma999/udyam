@@ -10,9 +10,9 @@ export default function UdyamForm() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <Header/>
-     <UdyamRegistrationForm/>
-     <Footer/>
+      <Header />
+      <UdyamRegistrationForm />
+      <Footer />
     </div>
   );
 }
