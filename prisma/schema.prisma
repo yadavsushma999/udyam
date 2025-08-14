@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Registration {
+  id              String   @id @default(uuid())
+  aadhaarNumber   String   @db.VarChar(12)
+  nameOnAadhaar   String
+  mobileNumber    String?   @db.VarChar(10)
+  declaration     Boolean  @default(false)
+  otpVerified     Boolean  @default(false)
+  panNumber       String?  @db.VarChar(10)
+  panHolderName   String?
+  otpSessionId    String?
+  otpExpiry       DateTime? 
+  otpCode         String?
+  dobOrDoi        DateTime?
+  typeOfOrg       Int?
+  consent         Boolean? @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([aadhaarNumber])
+  @@index([panNumber])
+}
+
