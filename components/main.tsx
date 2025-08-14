@@ -6,7 +6,7 @@ import fields from "@/components/UdyamStep1.json";
 import PanVerificationForm from "@/components/PanVerificationForm";
 
 export default function UdyamRegistrationForm() {
-    const [formData, setFormData] = useState<Record<string,any>>({});
+    const [formData, setFormData] = useState<Record<string, any>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [message, setMessage] = useState<string | null>(null);
     const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -292,23 +292,19 @@ export default function UdyamRegistrationForm() {
                 {/* Marquee */}
                 <div className="mb-8 flex justify-center">
                     <div className="max-w-4xl w-full">
-                        <marquee
-                            scrolldelay="110"
-                            behavior="scroll"
-                            onMouseOver={(e) => e.currentTarget.stop()}
-                            onMouseOut={(e) => e.currentTarget.start()}
-                            className="text-red-600 text-[15px] font-semibold font-sans cursor-pointer"
-                        >
-                            <a
-                                href="docs/OM_regarding_inclusion_of_Traders02072021.pdf"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-[#007bff] text-[15px] font-semibold"
-                            >
-                                Activities (NIC codes) not covered under MSMED Act, 2006 for Udyam
-                                Registration
-                            </a>
-                        </marquee>
+                        <div className="overflow-hidden whitespace-nowrap">
+                            <div className="inline-block animate-marquee">
+                                <a
+                                    href="docs/OM_regarding_inclusion_of_Traders02072021.pdf"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-[#007bff] text-[15px] font-semibold"
+                                >
+                                    Activities (NIC codes) not covered under MSMED Act, 2006 for Udyam Registration
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </section>
