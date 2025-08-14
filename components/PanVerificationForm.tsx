@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-// Type for form fields
 interface PanForm {
     typeOfOrg: string;
     pan: string;
@@ -9,7 +8,6 @@ interface PanForm {
     consent: boolean;
 }
 
-// Type for server error
 interface ServerError {
     message?: string;
     note?: string;
@@ -49,11 +47,22 @@ const PanVerification: React.FC = () => {
         { value: "11", label: "11. Others / अन्य" },
     ];
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
         setForm((prev) => ({
             ...prev,
             [name]: type === "checkbox" ? checked : value,
+        }));
+        if (errors[name as keyof PanForm]) {
+            setErrors((prev) => ({ ...prev, [name]: "" }));
+        }
+    };
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
         }));
         if (errors[name as keyof PanForm]) {
             setErrors((prev) => ({ ...prev, [name]: "" }));
@@ -167,7 +176,7 @@ const PanVerification: React.FC = () => {
                     <select
                         name="typeOfOrg"
                         value={form.typeOfOrg}
-                        onChange={handleChange}
+                        onChange={handleSelectChange}
                         disabled={isVerified}
                         className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 text-[1rem]"
                     >
@@ -187,7 +196,7 @@ const PanVerification: React.FC = () => {
                         type="text"
                         name="pan"
                         value={form.pan}
-                        onChange={handleChange}
+                        onChange={handleInputChange}
                         disabled={isVerified}
                         placeholder="ENTER PAN NUMBER"
                         className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 text-[1rem]"
@@ -206,7 +215,7 @@ const PanVerification: React.FC = () => {
                         type="text"
                         name="panHolderName"
                         value={form.panHolderName}
-                        onChange={handleChange}
+                        onChange={handleInputChange}
                         disabled={isVerified}
                         placeholder="Enter Name"
                         className="w-full border border-gray-300 rounded-sm p-2 focus:outline-none focus:ring-1 focus:ring-blue-500 text-[1rem]"
@@ -238,7 +247,7 @@ const PanVerification: React.FC = () => {
                     type="checkbox"
                     name="consent"
                     checked={form.consent}
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                     disabled={isVerified}
                     className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-blue-500"
                 />
