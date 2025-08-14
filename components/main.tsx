@@ -6,7 +6,7 @@ import fields from "@/components/UdyamStep1.json";
 import PanVerificationForm from "@/components/PanVerificationForm";
 
 export default function UdyamRegistrationForm() {
-    const [formData, setFormData] = useState<Record<string, any>>({});
+    const [formData, setFormData] = useState<Record<string,any>>({});
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [message, setMessage] = useState<string | null>(null);
     const [errorMessages, setErrorMessages] = useState<string[]>([]);

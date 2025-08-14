@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -14,18 +14,16 @@ export default function Header() {
                     {/* Logo */}
                     <h1 className="logo ">
                         <a href="/Government-India/Ministry-MSME-registration.htm" aria-label="Home" className="inline-block">
-                            <img
+                            <Image
                                 src="/img/MINISTRY_NAME.webp"
                                 alt="Ministry Logo"
+                                width={280}
+                                height={50}
                                 className="h-16 w-auto"
                             />
-
                         </a>
                     </h1>
-
-                    {/* Middle Image */}
-
-
+                    
                     {/* Navigation */}
                     <nav className="hidden lg:block nav-menu">
                         <ul className="flex list-none m-0 p-0">
@@ -98,9 +96,9 @@ export default function Header() {
                                             className="flex items-center justify-between px-5 py-2 text-[#2c4964] text-sm hover:text-[#07174e]"
                                         >
                                             Udyam Registration Benefits
-                                            <img
+                                            <Image
                                                 alt="New"
-                                                src="/images/new.gif"
+                                                src="/img/new.gif"
                                                 height={20}
                                                 width={38}
                                                 className="ml-2"
@@ -153,9 +151,9 @@ export default function Header() {
                                     <li className="group relative cursor-pointer">
                                         <span className="flex items-center justify-between px-5 py-2 text-[#2c4964] text-sm hover:text-[#07174e] font-semibold">
                                             Udyam Registration Bulletin
-                                            <img
+                                            <Image
                                                 alt="New"
-                                                src="/images/new.gif"
+                                                src="/img/new.gif"
                                                 height={20}
                                                 width={38}
                                                 className="ml-2"
@@ -194,9 +192,9 @@ export default function Header() {
                                                     >
                                                         {label}
                                                         {isNew && (
-                                                            <img
+                                                            <Image
                                                                 alt="New"
-                                                                src="/images/new.gif"
+                                                                src="/img/new.gif"
                                                                 height={20}
                                                                 width={38}
                                                                 className="ml-2"
@@ -263,9 +261,9 @@ export default function Header() {
                                             className="flex items-center justify-between px-5 py-2 text-[#2c4964] text-sm hover:text-[#07174e]"
                                         >
                                             Verify Udyam Registration Number
-                                            <img
+                                            <Image
                                                 alt="New"
-                                                src="/images/new.gif"
+                                                src="/img/new.gif"
                                                 height={20}
                                                 width={38}
                                                 className="ml-2"
@@ -330,7 +328,7 @@ export default function Header() {
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
-                                        strokeWidth={3} 
+                                        strokeWidth={3}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                     >
@@ -345,9 +343,9 @@ export default function Header() {
                                             className="flex items-center justify-between px-5 py-2 text-[#2c4964] text-sm hover:text-[#07174e]"
                                         >
                                             Update/Cancel Udyam Registration
-                                            <img
+                                            <Image
                                                 alt="New"
-                                                src="/images/new.gif"
+                                                src="/img/new.gif"
                                                 height={20}
                                                 width={38}
                                                 className="ml-2"
@@ -382,28 +380,29 @@ export default function Header() {
                                     <li>
                                         <a
                                             href="/Udyam_Officer_Login.aspx"
-                                            aria-label="Officer's Login"
+                                            aria-label="Officer&apos;s Login"
                                             className="block px-5 py-2 text-[#2c4964] text-sm hover:text-[#07174e]"
                                         >
-                                            Officer's Login
+                                            Officer&apos;s Login
                                         </a>
                                     </li>
                                     <li>
                                         <a
                                             href="/Udyam_EFC_Login.aspx"
-                                            aria-label="EFC's Login"
+                                            aria-label="EFC&apos;s Login"
                                             className="flex items-center justify-between px-5 py-2 text-[#2c4964] text-sm hover:text-[#07174e]"
                                         >
-                                            EFC's Login
-                                            <img
+                                            EFC&apos;s Login
+                                            <Image
                                                 alt="New"
-                                                src="/images/new.gif"
+                                                src="/img/new.gif"
                                                 height={20}
                                                 width={38}
                                                 className="ml-2"
                                             />
                                         </a>
                                     </li>
+
                                     <li>
                                         <a
                                             href="/Udyam_NSSH_Login.aspx"
@@ -411,9 +410,9 @@ export default function Header() {
                                             className="flex items-center justify-between px-5 py-2 text-[#2c4964] text-sm hover:text-[#07174e]"
                                         >
                                             NSSH Officer's Login
-                                            <img
+                                            <Image
                                                 alt="New"
-                                                src="/images/new.gif"
+                                                src="/img/new.gif"
                                                 height={20}
                                                 width={38}
                                                 className="ml-2"
