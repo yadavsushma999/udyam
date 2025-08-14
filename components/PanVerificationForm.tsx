@@ -252,7 +252,7 @@ const PanVerification: React.FC = () => {
                     className="mt-1 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-blue-500"
                 />
                 <p className="ml-2 text-[16px] text-gray-900">
-                    I, the holder of the above PAN, hereby give my consent to Ministry of MSME...
+                    I, the holder of the above PAN, hereby give my consent to Ministry of MSME, Government of India, for using my data/information available in the Income Tax Returns filed by me, and also the same available in the GST Returns and also from other Government organizations, for MSME classification and other official purposes, in pursuance of the MSMED Act, 2006.
                 </p>
                 {errors.consent && <p className="mt-1 text-[16px] font-extrabold text-red-600 ml-2">{errors.consent}</p>}
             </div>
